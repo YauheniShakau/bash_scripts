@@ -3,14 +3,14 @@
 
 read -p "Please, enter directory /../../DIR : " directory
 read -p "Please, enter the depth of nesting: " max_depth
-read -p "Please, enter max size of a file: " max_size
 read -p "Please, enter max amount of files and folders to be created: " max_items
+read -p "Please, enter max size of a file in bytes: " max_size
 
 mkdir -p /home/eugene/work/bash_scripts/$directory
 cd /home/eugene/work/bash_scripts/$directory
 
 depth=$(( ( RANDOM % ( $max_depth - 1 ) ) + 1 ))
-
+size=$(( ( RANDOM % ( $max_size - 1 ) ) + 1 ))
 dc=1
 dc1=1
 
@@ -23,7 +23,8 @@ while [ $dc1 -le $depth ]; do
 			items=$(( ( RANDOM % ( $max_items - 1 ) ) + 1 ));
 			for i in `seq "$items"`; do mkdir -p "$(( RANDOM % 99999999 ))"; done;
 			items=$(( ( RANDOM % ( $max_items - 1 ) ) + 1 ));
-			for i in `seq "$items"`; do touch "$(( RANDOM % 99999999 ))".md; done;
+			for i in `seq "$items"`; do touch "$(( RANDOM % 99999999 ))".md; 
+			head -c $size </dev/urandom > $( ls -t | head -n1 ); done;
 		fi
 
 	dirs=(*/)
